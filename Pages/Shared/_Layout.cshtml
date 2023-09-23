@@ -1,9 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Card Game</title>
+    <title>@ViewData["Title"] - @Configuration["app:settings:name"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Challenge03.styles.css" asp-append-version="true" />
@@ -40,7 +43,7 @@
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2023 - Card Game - <a asp-area="" asp-page="/Privacy">Privacy</a>
-            <p>Developed by <a href="https://www.linkedin.com/in/mateusvassuncao/">Mateus Assuncação</a></p>
+            <p>Developed by <a href="https://www.linkedin.com/in/mateusvassuncao/">@Configuration["app:settings:company"]</a></p>
         </div>
     </footer>
 
