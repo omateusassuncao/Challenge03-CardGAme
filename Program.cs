@@ -14,6 +14,16 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddRazorPages();
 
+//Application Insights
+builder.Services.AddApplicationInsightsTelemetry();
+
+//Azure App Configuration
+var appConfigString = builder.Configuration.GetConnectionString("AzureAppConfiguration");
+builder.Host.ConfigureAppConfiguration(config => {
+    var settings = config.Build();
+    config.AddAzureAppConfiguration(appConfigString);
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
