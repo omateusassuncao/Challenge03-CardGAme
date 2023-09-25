@@ -1,6 +1,7 @@
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using Challenge03.Data;
+using Challenge03.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Formatters.Xml;
 using Microsoft.EntityFrameworkCore;
@@ -59,6 +60,28 @@ string GetConnection(string secretName){
 }
 //
 //
+
+
+
+// Testes
+
+Player p1 = new Player("Mateus");
+Player p2 = new Player("Ana");
+
+Card c1 = new Card("Knight", "aaa", "Arqueiro", "Fogo", "aaa.com", p1);
+//p1.AdicionarCard(c1);
+Card c2 = new Card("Magician", "aaa", "Mago", "Agua", "aaa.com", p2);
+//p2.AdicionarCard(c2);
+
+Batalha b0 = new Batalha(p1, c1, "Agilidade", p2, c2, "Inteligencia");
+
+Console.WriteLine("Card1 (" + c1.Nome + "[" + c1.Forca + ", " + c1.Defesa + ", " + c1.Agilidade + ", " + c1.Inteligencia + ", " + "]" + ")");
+Console.WriteLine("Card2 (" + c2.Nome + "[" + c2.Forca + ", " + c2.Defesa + ", " + c2.Agilidade + ", " + c2.Inteligencia + ", " + "]" + ")");
+Console.WriteLine(b0.LogBatalha);
+
+//Testes
+
+
 
 var app = builder.Build();
 
