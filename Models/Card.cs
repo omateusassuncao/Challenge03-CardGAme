@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Challenge03.Models
 {
     public class Card
     {
-        public Card(string nome, string historia, string classe, string elemento, string imageUrl, Player player)
+        public Card(string nome, string historia, string classe, string elemento, string imageUrl, string assinatura)
         {
             Nome = nome;
             Historia = historia;
@@ -17,15 +18,20 @@ namespace Challenge03.Models
             Agilidade = CalcularAgilidade();
             Inteligencia = CalcularInteligencia();
             ImageUrl = imageUrl;
-            Player = player;
+            Assinatura = assinatura;
         }
 
         [Key]
+        [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Nome { get; set; }
-        public Player Player { get; set; }
         public string Historia { get; set; }
         public string ImageUrl { get; set; }
+        public string Assinatura { get; set; }
+        public int? BaralhoId { get; set; }
+        public Baralho? Baralho { get; set; }
+       
 
         //Propriedades
         public string Classe { get; set; } //Guerreiro, Mago, Arqueiro, Ladrão

@@ -1,11 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.Eventing.Reader;
 
 namespace Challenge03.Models
 {
     public class Batalha
     {
-        private string resultado_final;
+        // Construtor sem parâmetros necessário para o Entity Framework
+        public Batalha()
+        {
+        }
 
         public Batalha(Player playerA, Card cardA, string escolhaA, Player playerB, Card cardB, string escolhaB)
         {
@@ -19,6 +23,8 @@ namespace Challenge03.Models
         }
 
         [Key]
+        [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public Player Player_A { get; set; }
         public Card Card_A { get; set; }
@@ -38,19 +44,19 @@ namespace Challenge03.Models
             Card? vencedorRound1 = RoundCalculadora(Escolha_A, Card_A, Card_B);
             string round_1_resultado = "";
             if (vencedorRound1 == null) round_1_resultado = "Resultado do round 1: Empate";
-            else round_1_resultado = "Resultado do round 1: " + vencedorRound1.Nome + "(" + vencedorRound1.Player.Nome + ")";
+            else round_1_resultado = "Resultado do round 1: " + vencedorRound1.Nome + "(" + vencedorRound1.Baralho.Player.Nome + ")";
             EscreverLog(round_1_resultado);
 
             Card? vencedorRound2 = RoundCalculadora(Escolha_B, Card_B, Card_A);
             string round_2_resultado = "";
             if (vencedorRound2 == null) round_2_resultado = "Resultado do round 2: Empate";
-            else round_2_resultado = "Resultado do round 2: " + vencedorRound2.Nome + "(" + vencedorRound2.Player.Nome + ")";
+            else round_2_resultado = "Resultado do round 2: " + vencedorRound2.Nome + "(" + vencedorRound2.Baralho.Player.Nome + ")";
             EscreverLog(round_2_resultado);
 
             if (vencedorRound1 == vencedorRound2)
             {
-                Vencedor = vencedorRound1.Player;
-                string resultado_final = "O vencedor da batalha é: " + vencedorRound1.Nome + "(" + vencedorRound1.Player.Nome + ")";
+                Vencedor = vencedorRound1.Baralho.Player;
+                string resultado_final = "O vencedor da batalha é: " + vencedorRound1.Nome + "(" + vencedorRound1.Baralho.Player.Nome + ")";
                 EscreverLog(resultado_final);
                 return resultado_final;
             }

@@ -1,26 +1,28 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Challenge03.Models
 {
     public class Player
     {
-        public Player(string nome)
+        public Player()
+        {
+        }
+        public Player(string nome, string cpf)
         {
             Nome = nome;
+            CPF = cpf;
         }
 
         [Key]
+        [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        [Required]
         public string Nome { get; set; }
-        public List<Card> Baralho { get; set; }
 
-        //public void AdicionarCard(Card card)
-        //{
-        //    Baralho.Add(card);
-        //}
-        //public void RemoverCard(Card card)
-        //{
-        //    Baralho.Remove(card);
-        //}
+        [Required]
+        [RegularExpression(@"^\d{11}$", ErrorMessage = "CPF deve conter apenas números e ter 11 dígitos.")]
+        public string CPF { get; set; }
     }
 }

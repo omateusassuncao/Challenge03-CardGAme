@@ -10,23 +10,31 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+//
 //Database connection
+//
 string secretNameDBConnectionString= "db-connectionstring"; //Acessa em Key Vault > Secrets
-var dbConnectionString = GetConnection(secretNameDBConnectionString);
-//var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+//var dbConnectionString = GetConnection(secretNameDBConnectionString);
+var dbConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(dbConnectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+//
 //Identity Configuration
+//
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddRazorPages();
 
+//
 //Application Insights
+//
 builder.Services.AddApplicationInsightsTelemetry();
 
+//
 //Azure App Configuration
+//
 string secretNameAppConfig= "app-configuration"; //Acessa em Key Vault > Secrets
 var appConfigString = GetConnection(secretNameAppConfig);
 //var appConfigString = builder.Configuration.GetConnectionString("AzureAppConfiguration");
@@ -34,6 +42,14 @@ builder.Host.ConfigureAppConfiguration(config => {
     var settings = config.Build();
     config.AddAzureAppConfiguration(appConfigString);
 });
+
+
+//
+builder.Services.AddTransient<IRepository<Card>, Repository<Card>>();
+builder.Services.AddTransient<IRepository<Player>, Repository<Player>>();
+builder.Services.AddTransient<IRepository<Batalha>, Repository<Batalha>>();
+//
+
 
 //
 // Passar esse código para uma classe 
@@ -59,29 +75,6 @@ string GetConnection(string secretName){
 	return conn;
 }
 //
-//
-
-
-
-// Testes
-
-Player p1 = new Player("Mateus");
-Player p2 = new Player("Ana");
-
-Card c1 = new Card("Knight", "aaa", "Arqueiro", "Fogo", "aaa.com", p1);
-//p1.AdicionarCard(c1);
-Card c2 = new Card("Magician", "aaa", "Mago", "Agua", "aaa.com", p2);
-//p2.AdicionarCard(c2);
-
-Batalha b0 = new Batalha(p1, c1, "Agilidade", p2, c2, "Inteligencia");
-
-Console.WriteLine("Card1 (" + c1.Nome + "[" + c1.Forca + ", " + c1.Defesa + ", " + c1.Agilidade + ", " + c1.Inteligencia + ", " + "]" + ")");
-Console.WriteLine("Card2 (" + c2.Nome + "[" + c2.Forca + ", " + c2.Defesa + ", " + c2.Agilidade + ", " + c2.Inteligencia + ", " + "]" + ")");
-Console.WriteLine(b0.LogBatalha);
-
-//Testes
-
-
 
 var app = builder.Build();
 
@@ -101,6 +94,10 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.UseAuthentication();
 app.UseAuthorization();

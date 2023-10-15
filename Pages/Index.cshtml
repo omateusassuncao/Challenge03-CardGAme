@@ -10,5 +10,33 @@
 
 <div class="text-center">
     <h1 class="display-4">@Configuration["app:settings:name"]</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">Play and Share your creativity!!!</a>.</p>
+</div>
+
+<div class="container text-center">
+    <div class="row">
+        <div class="card" style="width: 18rem;">
+            <img src="img/battle.png" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Players</h5>
+                <p class="card-text">Veja os players</p>
+                <a asp-page="/Players/Index" class="btn btn-primary">Go</a>
+            </div>
+        </div>
+        <div class="card" style="width: 18rem;">
+            <img src="img/card-games.png" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Cards</h5>
+                <p class="card-text">Lista de cards</p>
+                <a asp-page="/Cards/Index" class="btn btn-primary">Go</a>
+            </div>
+        </div>
+        <div class="card" style="width: 18rem;">
+            <img src="img/versus.png" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Batalhas</h5>
+                <p class="card-text">Acompanhe as batalhas</p>
+                <a asp-page="/Batalhas/Index" class="btn btn-primary">Go</a>
+            </div>
+        </div>
+    </div>
 </div>
