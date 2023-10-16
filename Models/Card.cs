@@ -5,6 +5,7 @@ namespace Challenge03.Models
 {
     public class Card
     {
+        public Card() { }
         public Card(string nome, string historia, string classe, string elemento, string imageUrl, string assinatura)
         {
             Nome = nome;
@@ -31,11 +32,12 @@ namespace Challenge03.Models
         public string Assinatura { get; set; }
         public int? BaralhoId { get; set; }
         public Baralho? Baralho { get; set; }
-       
+
 
         //Propriedades
         public string Classe { get; set; } //Guerreiro, Mago, Arqueiro, Ladrão
         public string Elemento { get; set; } //Fogo, Água, Ar, Terra
+        //Calculados
         public int HP { get; set; }
         public int SP { get; set; }
         public int Forca { get; set; }

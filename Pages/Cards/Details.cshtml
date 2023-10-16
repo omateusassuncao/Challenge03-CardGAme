@@ -1,0 +1,91 @@
+﻿@page
+@model Challenge03.Pages.Cards.DetailsModel
+
+<div>
+    <h4>Card</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Card.Nome)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Card.Nome)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Card.Historia)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Card.Historia)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Card.ImageUrl)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Card.ImageUrl)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Card.Assinatura)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Card.Assinatura)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Card.Baralho)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Card.Baralho.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Card.Classe)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Card.Classe)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Card.Elemento)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Card.Elemento)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Card.HP)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Card.HP)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Card.SP)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Card.SP)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Card.Forca)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Card.Forca)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Card.Defesa)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Card.Defesa)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Card.Agilidade)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Card.Agilidade)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Card.Inteligencia)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Card.Inteligencia)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Card?.Id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
