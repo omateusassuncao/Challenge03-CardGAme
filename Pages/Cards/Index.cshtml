@@ -7,6 +7,8 @@
 <table class="table">
     <thead>
         <tr>
+            <td>
+            </td>
             <th>
                 @Html.DisplayNameFor(model => model.Card[0].Nome)
             </th>
@@ -14,44 +16,40 @@
                 @Html.DisplayNameFor(model => model.Card[0].Historia)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Card[0].ImageUrl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Card[0].Assinatura)
+                Autor
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Card[0].Baralho)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Card[0].Classe)
-            </th>
-            <th>
+                /
                 @Html.DisplayNameFor(model => model.Card[0].Elemento)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Card[0].HP)
-            </th>
-            <th>
+                /
                 @Html.DisplayNameFor(model => model.Card[0].SP)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Card[0].Forca)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Card[0].Defesa)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Card[0].Agilidade)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Card[0].Inteligencia)
+                For
+                /
+                Def
+                /
+                Agi
+                /
+                Int
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model.Card) {
+
         <tr>
+            <td>
+                <img src="@Html.DisplayFor(modelItem => item.ImageUrl)" alt=@Html.DisplayFor(modelItem => item.Nome) width="100" height="100">
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Nome)
             </td>
@@ -59,36 +57,28 @@
                 @Html.DisplayFor(modelItem => item.Historia)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ImageUrl)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Assinatura)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Baralho.Id)
+                @Html.DisplayFor(modelItem => item.Baralho.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Classe)
-            </td>
-            <td>
+                /
                 @Html.DisplayFor(modelItem => item.Elemento)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.HP)
-            </td>
-            <td>
+                /
                 @Html.DisplayFor(modelItem => item.SP)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Forca)
-            </td>
-            <td>
+                /
                 @Html.DisplayFor(modelItem => item.Defesa)
-            </td>
-            <td>
+                /
                 @Html.DisplayFor(modelItem => item.Agilidade)
-            </td>
-            <td>
+                /
                 @Html.DisplayFor(modelItem => item.Inteligencia)
             </td>
             <td>

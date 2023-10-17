@@ -75,7 +75,7 @@ namespace Challenge03.Pages.Cards
             string apiKey = "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";
             string apiUrl = "https://api.openai.com/v1/images/generations";
             int n = 1;
-            string size = "1024x1024";
+            string size = "512x512";
 
             var client = new HttpClient();
             client.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
@@ -95,11 +95,12 @@ namespace Challenge03.Pages.Cards
                 var result = JsonSerializer.Deserialize<OpenAIImageResponse>(jsonContent);
 
                 // O resultado contém as imagens geradas. Você pode processá-las conforme necessário.
-                foreach (var image in result.choices)
-                {
-                    Console.WriteLine($"URL da imagem: {image.url}");
-                }
-                return result.choices[0].url;
+                //foreach (var image in result.choices)
+                //{
+                //    Console.WriteLine($"URL da imagem: {image.url}");
+                //}
+
+                return result.data[0].url;
             }
             else
             {
@@ -115,10 +116,10 @@ namespace Challenge03.Pages.Cards
 
 public class OpenAIImageResponse
 {
-    public OpenAIImageChoice[] choices { get; set; }
+    public List<OpenAIImageData> data { get; set; }
 }
 
-public class OpenAIImageChoice
+public class OpenAIImageData
 {
     public string url { get; set; }
 }
