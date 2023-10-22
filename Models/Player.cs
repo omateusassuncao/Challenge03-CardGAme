@@ -24,5 +24,15 @@ namespace Challenge03.Models
         [Required]
         [RegularExpression(@"^\d{11}$", ErrorMessage = "CPF deve conter apenas números e ter 11 dígitos.")]
         public string CPF { get; set; }
+
+        public int? BaralhoId { get; set; }
+        public Baralho? Baralho { get; set; }
+
+        internal void AddBaralho(Baralho baralho)
+        {
+            if(BaralhoId != null)
+            Baralho = baralho;
+            BaralhoId = baralho.Id;
+        }
     }
 }

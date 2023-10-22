@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Challenge03.Data;
 using Challenge03.Models;
 
-namespace Challenge03.Pages.Players
+namespace Challenge03.Pages.Baralhos
 {
     public class CreateModel : PageModel
     {
@@ -21,39 +21,23 @@ namespace Challenge03.Pages.Players
 
         public IActionResult OnGet()
         {
+        ViewData["PlayerId"] = new SelectList(_context.Players, "Id", "CPF");
             return Page();
         }
 
         [BindProperty]
-        public Player Player { get; set; } = default!;
+        public Baralho Baralho { get; set; } = default!;
         
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Players == null || Player == null)
+          if (!ModelState.IsValid || _context.Baralhos == null || Baralho == null)
             {
-                Console.WriteLine("Valid Model: " + ModelState.IsValid.ToString());
                 return Page();
             }
 
-            Player player = new Player(Player.Nome, Player.CPF);
-
-            _context.Players.Add(player);
-
-            Baralho baralho = new Baralho(player);
-
-            var result = _context.Baralhos.Add(baralho);
-
-            await _context.SaveChangesAsync();
-
-            player = _context.Players.FirstOrDefault(x => x.Nome == player.Nome && x.CPF == player.CPF);
-            baralho = _context.Baralhos.FirstOrDefault(b => b.Name == baralho.Name && b.Player.Id == player.Id);
-
-            player.AddBaralho(baralho);
-
-            _context.Players.Update(player);
-
+            _context.Baralhos.Add(Baralho);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

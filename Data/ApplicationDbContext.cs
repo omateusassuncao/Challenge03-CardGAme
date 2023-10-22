@@ -24,6 +24,11 @@ namespace Challenge03.Data
                 entity.HasKey(p => p.Id);
                 entity.Property(p => p.Id);
 
+                entity.HasOne(c => c.Baralho)
+                      .WithOne()
+                      .HasForeignKey<Player>(c => c.BaralhoId)
+                      .OnDelete(DeleteBehavior.SetNull); // Define a exclusão em cascata
+
             });
 
             modelBuilder.Entity<Card>(entity =>
@@ -43,7 +48,7 @@ namespace Challenge03.Data
                 entity.Property(b => b.Id);
 
                 entity.HasOne(b => b.Player)
-                      .WithOne()
+                      .WithOne(p => p.Baralho)
                       .HasForeignKey<Baralho>(b => b.PlayerId)
                       .OnDelete(DeleteBehavior.Cascade); // Define a exclusão em cascata
 

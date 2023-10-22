@@ -27,7 +27,6 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
-    <Folder Include="Pages\Baralhos\" />
     <Folder Include="Pages\Batalhas\" />
   </ItemGroup>
 

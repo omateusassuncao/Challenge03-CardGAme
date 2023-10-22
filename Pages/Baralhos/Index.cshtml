@@ -1,11 +1,5 @@
 ﻿@page
-@model Challenge03.Pages.Players.IndexModel
-
-@{
-    ViewData["Title"] = "Index";
-}
-
-<h1>Index</h1>
+@model Challenge03.Pages.Baralhos.IndexModel
 
 <p>
     <a asp-page="Create">Create New</a>
@@ -14,24 +8,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Player[0].Nome)
+                @Html.DisplayNameFor(model => model.Baralho[0].Name)
             </th>
             <th>
-                Baralho
+                @Html.DisplayNameFor(model => model.Baralho[0].Player)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Player) {
+@foreach (var item in Model.Baralho) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Nome)
+                @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                <a asp-page="/Baralhos/Details" asp-route-id="@item.BaralhoId">                
-                    @Html.DisplayFor(modelItem => item.Baralho.Name)
-                </a>
+                @Html.DisplayFor(modelItem => item.Player.CPF)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">📝</a> |

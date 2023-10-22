@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Challenge03.Data;
 using Challenge03.Models;
 
-namespace Challenge03.Pages.Players
+namespace Challenge03.Pages.Baralhos
 {
     public class IndexModel : PageModel
     {
@@ -19,13 +19,14 @@ namespace Challenge03.Pages.Players
             _context = context;
         }
 
-        public IList<Player> Player { get;set; } = default!;
+        public IList<Baralho> Baralho { get;set; } = default!;
 
         public async Task OnGetAsync()
         {
-            if (_context.Players != null)
+            if (_context.Baralhos != null)
             {
-                Player = await _context.Players.Include(p => p.Baralho).ToListAsync();
+                Baralho = await _context.Baralhos
+                .Include(b => b.Player).ToListAsync();
             }
         }
     }

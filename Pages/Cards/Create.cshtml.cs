@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Challenge03.Data;
 using Challenge03.Models;
-using System.Xml.Linq;
-using System.Text.Json;
-using System.Drawing;
+using Newtonsoft.Json;
 
 namespace Challenge03.Pages.Cards
 {
@@ -60,8 +53,8 @@ namespace Challenge03.Pages.Cards
                 return Page();
             }
 
-            string textToAi = /*Card.Classe + " " + */Card.ImageUrl/* + "of" + Card.Elemento*/;
-            string aiResult = GetAIIMage(textToAi).Result.ToString();
+            string textToSearch = /*Card.Classe + " " + */Card.ImageUrl/* + "of" + Card.Elemento*/;
+            string aiResult = GetGoogleIMage(textToSearch).Result.ToString();
             Card card = new Card(Card.Nome, Card.Historia, Card.Classe, Card.Elemento, aiResult, Card.Assinatura);  
 
             _context.Cards.Add(card);
@@ -70,48 +63,103 @@ namespace Challenge03.Pages.Cards
             return RedirectToPage("./Index");
         }
 
-        static async Task<string> GetAIIMage(string prompt)
+        //Còdigo utilizado para busca no google utizando Google API
+        static async Task<string> GetGoogleIMage(string query)
         {
-            string apiKey = "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";
-            string apiUrl = "https://api.openai.com/v1/images/generations";
-            int n = 1;
-            string size = "512x512";
+            string cseId = "3599d0fa2138f4b50";
+            string apiKey = "AIzaSyC4ehfwsrgNhaO7UPchntMAy5gy-gnH9-A";
+            string numItens = "3";
+            string apiUrl = "https://www.googleapis.com/customsearch/v1?cx={cx}&key={key}&q={query}&num{num}";
 
             var client = new HttpClient();
-            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
+            var uri = new Uri(apiUrl.Replace("{query}", query).Replace("{cx}", cseId).Replace("{key}", apiKey).Replace("{num}", numItens));
+            //client.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
 
-            var requestContent = new
+            var response = await client.GetAsync(uri);
+
+            if (response.IsSuccessStatusCode)       
             {
-                prompt,
-                n,
-                size
-            };
+                // Decodifica a resposta JSON
+                var json = await response.Content.ReadAsStringAsync();
 
-            var response = await client.PostAsJsonAsync(apiUrl, requestContent);
+                var search = JsonConvert.DeserializeObject<Search>(json);
 
-            if (response.IsSuccessStatusCode)
-            {
-                var jsonContent = await response.Content.ReadAsStringAsync();
-                var result = JsonSerializer.Deserialize<OpenAIImageResponse>(jsonContent);
-
-                // O resultado contém as imagens geradas. Você pode processá-las conforme necessário.
-                //foreach (var image in result.choices)
-                //{
-                //    Console.WriteLine($"URL da imagem: {image.url}");
-                //}
-
-                return result.data[0].url;
+                CseImage cseImage = search.Items.Select(item => item.Pagemap.cse_image.First()).FirstOrDefault();
+                
+                // Retorna a lista de imagens
+                return cseImage.src;
             }
             else
             {
-                Console.WriteLine($"Erro na solicitação: {response.ReasonPhrase}");
-                return "erro";
+                // Lança uma exceção
+                throw new Exception("Erro ao buscar imagens: " + response.StatusCode);
             }
 
         }
 
+        ////Código utilizado para busca na OpenAI
+        //static async Task<string> GetAIIMage(string prompt)
+        //{
+        //    string apiKey = "AIzaSyC4ehfwsrgNhaO7UPchntMAy5gy-gnH9-A";
+        //    string apiUrl = "https://api.openai.com/v1/images/generations";
+        //    int n = 1;
+        //    string size = "512x512";
+
+        //    var client = new HttpClient();
+        //    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
+
+        //    var requestContent = new
+        //    {
+        //        prompt,
+        //        n,
+        //        size
+        //    };
+
+        //    var response = await client.PostAsJsonAsync(apiUrl, requestContent);
+
+        //    if (response.IsSuccessStatusCode)
+        //    {
+        //        var jsonContent = await response.Content.ReadAsStringAsync();
+        //        var result = JsonSerializer.Deserialize<OpenAIImageResponse>(jsonContent);
+
+        //        // O resultado contém as imagens geradas. Você pode processá-las conforme necessário.
+        //        //foreach (var image in result.choices)
+        //        //{
+        //        //    Console.WriteLine($"URL da imagem: {image.url}");
+        //        //}
+
+        //        return result.data[0].url;
+        //    }
+        //    else
+        //    {
+        //        Console.WriteLine($"Erro na solicitação: {response.ReasonPhrase}");
+        //        return "erro";
+        //    }
+
+        //}
+
 
     }
+}
+
+public class Search
+{
+    public List<Item> Items { get; set; }
+}
+
+public class Item
+{
+    public Pagemap Pagemap { get; set; }
+}
+
+public class Pagemap
+{
+    public List<CseImage> cse_image { get; set; }
+}
+
+public class CseImage
+{
+    public string src { get; set; }
 }
 
 public class OpenAIImageResponse
