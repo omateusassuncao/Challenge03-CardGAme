@@ -1,0 +1,90 @@
+﻿@page
+@model Challenge03.Pages.Batalhas.CreateModel
+
+<table>
+  <tr>
+        <td class="col-md-1" style="text-align: left;">
+            <h4>Batalha</h4>
+        </td>
+        <td class="col-md-1" style="text-align: right;">
+            <a asp-page="Index">Back to List</a>
+        </td>
+  </tr>
+</table>
+
+<form method="post">
+<div class="form-group">
+    <div class="row">
+        <div class="col-md-4">
+
+            @*Player_A = playerA;
+            Card_A = cardA;
+            Escolha_A = escolhaA;
+            Player_B = playerB;
+            Card_B = cardB;
+            Escolha_B = escolhaB;*@
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <h3>Player Desafiador</h3>
+            <div class="form-group">
+                <label class="control-label">Player </label>
+                <label asp-for="Batalha.Player_AId" class="control-label"></label>
+                <select asp-for="Batalha.Player_AId" class="form-control" asp-items="ViewBag.Player" onchange="this.form.submit()"></select>
+                <span asp-validation-for="Batalha.Player_AId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Card </label>
+                <select asp-for="Batalha.Card_AId" class="form-control" asp-items="ViewBag.Card"></select>
+                <span asp-validation-for="Batalha.Card_AId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Batalha.Escolha_A" class="control-label"></label>
+                <select asp-for="Batalha.Escolha_A" asp-items="Model.AtributoList" class="form-control">
+                    <option value="">Escolha um atributo</option>
+                </select>
+                <span asp-validation-for="Batalha.Escolha_A" class="text-danger"></span>
+            </div>
+
+            <br />
+        </div>
+
+        <div class="col-md-1" style="display: table;">
+            <div class="form-group" style="display: table-cell; vertical-align: middle;">
+                <input type="submit" value="FIGHT ⚔️" class="btn btn-primary" />
+            </div>
+        </div>
+
+        <div class="col-md-4">
+
+            <h3>Player Desafiado</h3>
+
+            <div class="form-group">
+                <label class="control-label">Player </label>
+                <label asp-for="Batalha.Player_BId" class="control-label"></label>
+                <select asp-for="Batalha.Player_BId" class="form-control" asp-items="ViewBag.Player" onchange="this.form.submit()"></select>
+                <span asp-validation-for="Batalha.Player_BId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Card </label>
+                <select asp-for="Batalha.Card_BId" class="form-control" asp-items="ViewBag.Card"></select>
+                <span asp-validation-for="Batalha.Card_BId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Batalha.Escolha_B" class="control-label"></label>
+                <select asp-for="Batalha.Escolha_B" asp-items="Model.AtributoList" class="form-control">
+                    <option value="">Escolha um atributo</option>
+                </select>
+                <span asp-validation-for="Batalha.Escolha_B" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

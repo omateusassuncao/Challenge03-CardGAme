@@ -4,6 +4,7 @@ using Challenge03.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Challenge03.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231022235912_Starting-v10")]
+    partial class Startingv10
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,13 +55,10 @@ namespace Challenge03.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("Card_AId")
+                    b.Property<int>("Card_AId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Card_AId1")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Card_BId")
+                    b.Property<int>("Card_BId")
                         .HasColumnType("int");
 
                     b.Property<string>("Escolha_A")
@@ -71,15 +70,13 @@ namespace Challenge03.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LogBatalha")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Player_AId")
+                    b.Property<int>("Player_AId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Player_AId1")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Player_BId")
+                    b.Property<int>("Player_BId")
                         .HasColumnType("int");
 
                     b.Property<int?>("VencedorId")
@@ -89,11 +86,11 @@ namespace Challenge03.Migrations
 
                     b.HasIndex("Card_AId");
 
-                    b.HasIndex("Card_AId1");
+                    b.HasIndex("Card_BId");
 
                     b.HasIndex("Player_AId");
 
-                    b.HasIndex("Player_AId1");
+                    b.HasIndex("Player_BId");
 
                     b.HasIndex("VencedorId");
 
@@ -140,6 +137,7 @@ namespace Challenge03.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageUrl")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Inteligencia")
@@ -151,10 +149,6 @@ namespace Challenge03.Migrations
 
                     b.Property<int>("SP")
                         .HasColumnType("int");
-
-                    b.Property<string>("TextoParaImagem")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -200,25 +194,31 @@ namespace Challenge03.Migrations
 
             modelBuilder.Entity("Challenge03.Models.Batalha", b =>
                 {
-                    b.HasOne("Challenge03.Models.Card", "Card_B")
-                        .WithMany()
-                        .HasForeignKey("Card_AId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
                     b.HasOne("Challenge03.Models.Card", "Card_A")
                         .WithMany()
-                        .HasForeignKey("Card_AId1");
+                        .HasForeignKey("Card_AId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
-                    b.HasOne("Challenge03.Models.Player", "Player_B")
+                    b.HasOne("Challenge03.Models.Card", "Card_B")
                         .WithMany()
-                        .HasForeignKey("Player_AId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("Card_BId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.HasOne("Challenge03.Models.Player", "Player_A")
                         .WithMany()
-                        .HasForeignKey("Player_AId1");
+                        .HasForeignKey("Player_AId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
-                    b.HasOne("Challenge03.Models.Card", "Vencedor")
+                    b.HasOne("Challenge03.Models.Player", "Player_B")
+                        .WithMany()
+                        .HasForeignKey("Player_BId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Challenge03.Models.Player", "Vencedor")
                         .WithMany()
                         .HasForeignKey("VencedorId");
 

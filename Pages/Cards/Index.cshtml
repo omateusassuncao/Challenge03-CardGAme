@@ -10,26 +10,26 @@
             <td>
             </td>
             <th>
-                @Html.DisplayNameFor(model => model.Card[0].Nome)
+                @Html.DisplayNameFor(model => model.Cards[0].Nome)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Card[0].Historia)
+                @Html.DisplayNameFor(model => model.Cards[0].Historia)
             </th>
             <th>
                 Autor
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Card[0].Baralho)
+                @Html.DisplayNameFor(model => model.Cards[0].Baralho)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Card[0].Classe)
+                @Html.DisplayNameFor(model => model.Cards[0].Classe)
                 /
-                @Html.DisplayNameFor(model => model.Card[0].Elemento)
+                @Html.DisplayNameFor(model => model.Cards[0].Elemento)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Card[0].HP)
+                @Html.DisplayNameFor(model => model.Cards[0].HP)
                 /
-                @Html.DisplayNameFor(model => model.Card[0].SP)
+                @Html.DisplayNameFor(model => model.Cards[0].SP)
             </th>
             <th>
                 For
@@ -44,7 +44,7 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Card) {
+@foreach (var item in Model.Cards) {
 
         <tr>
             <td>

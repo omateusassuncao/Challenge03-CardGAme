@@ -10,7 +10,16 @@
                 <th>@Html.DisplayNameFor(model => model.Card.Nome)</th>
                 <td>@Html.DisplayFor(model => model.Card.Nome)</td>
                 <th>Imagem</th>
-                <td><img src="@Html.DisplayFor(model => model.Card.ImageUrl)" alt=@Html.DisplayFor(model => model.Card.Nome)></td>
+                <td>
+                    <img src="@Model.Card.ImageUrl"
+                         alt=@Html.DisplayFor(model => model.Card.TextoParaImagem)
+                         width="200" height="200">
+                </td>
+                <td>
+                    <a asp-page-handler="ChangeGoogleImage" asp-route-id="@Model.Card?.Id">
+                        <button class="btn btn-primary">Mudar a imagem aleatoriamente</button>
+                    </a>
+                </td>
             </tr>
             <tr>
                 <th>@Html.DisplayNameFor(model => model.Card.Baralho)</th>

@@ -26,7 +26,7 @@ namespace Challenge03.Pages.Baralhos
             if (_context.Baralhos != null)
             {
                 Baralho = await _context.Baralhos
-                .Include(b => b.Player).ToListAsync();
+                .Include(b => b.Player).Include(b => b.Cards).ToListAsync();
             }
         }
     }

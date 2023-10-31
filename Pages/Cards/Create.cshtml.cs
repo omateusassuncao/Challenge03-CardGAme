@@ -48,14 +48,15 @@ namespace Challenge03.Pages.Cards
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Cards == null || Card == null)
+            if (!ModelState.IsValid || _context.Cards == null || Card == null)
             {
                 return Page();
             }
 
-            string textToSearch = /*Card.Classe + " " + */Card.ImageUrl/* + "of" + Card.Elemento*/;
-            string aiResult = GetGoogleIMage(textToSearch).Result.ToString();
-            Card card = new Card(Card.Nome, Card.Historia, Card.Classe, Card.Elemento, aiResult, Card.Assinatura);  
+            string textToSearch = Card.TextoParaImagem /*+ " " + Card.Elemento*/;
+            string aiResult = GetGoogleImage(textToSearch).Result.ToString();
+            Baralho baralho = _context.Baralhos.FirstOrDefault(b => b.Id == Card.BaralhoId);
+            Card card = new Card(Card.Nome, Card.Historia, Card.TextoParaImagem, Card.Classe, Card.Elemento, aiResult, Card.Assinatura, baralho);  
 
             _context.Cards.Add(card);
             await _context.SaveChangesAsync();
@@ -64,12 +65,13 @@ namespace Challenge03.Pages.Cards
         }
 
         //Còdigo utilizado para busca no google utizando Google API
-        static async Task<string> GetGoogleIMage(string query)
+        static async Task<string> GetGoogleImage(string textToSearch)
         {
             string cseId = "3599d0fa2138f4b50";
             string apiKey = "AIzaSyC4ehfwsrgNhaO7UPchntMAy5gy-gnH9-A";
-            string numItens = "3";
-            string apiUrl = "https://www.googleapis.com/customsearch/v1?cx={cx}&key={key}&q={query}&num{num}";
+            string numItens = "10";
+            string apiUrl = "https://www.googleapis.com/customsearch/v1?cx={cx}&key={key}&q={query}&num={num}";
+            string query = "Monster " + textToSearch + "oil painting";
 
             var client = new HttpClient();
             var uri = new Uri(apiUrl.Replace("{query}", query).Replace("{cx}", cseId).Replace("{key}", apiKey).Replace("{num}", numItens));
@@ -77,17 +79,35 @@ namespace Challenge03.Pages.Cards
 
             var response = await client.GetAsync(uri);
 
-            if (response.IsSuccessStatusCode)       
+            if (response.IsSuccessStatusCode)
             {
                 // Decodifica a resposta JSON
                 var json = await response.Content.ReadAsStringAsync();
 
                 var search = JsonConvert.DeserializeObject<Search>(json);
 
-                CseImage cseImage = search.Items.Select(item => item.Pagemap.cse_image.First()).FirstOrDefault();
-                
-                // Retorna a lista de imagens
-                return cseImage.src;
+                var imageList = new List<string>();
+
+                foreach (var item in search.Items)
+                {
+                    if (item.Pagemap.cse_image != null && item.Pagemap.cse_image[0].src != null)
+                    {
+                        imageList.Add(item.Pagemap.cse_image[0].src);
+                    }
+                }
+                string imgUrl = null;
+
+                while (imgUrl == null)
+                {
+                    int randomNumber = (new Random()).Next(1, imageList.Count());
+                    imgUrl = imageList[randomNumber];
+                    //cseImage = search.Items.Select(item => item.Pagemap.cse_image[randomNumber]).FirstOrDefault();
+                    //cseImage = search.Items.Select(item => item.Pagemap.cse_image[randomNumber]).FirstOrDefault();
+                }
+
+                //cseImage = search.Items.Select(item => item.Pagemap.cse_image[randomNumber]).FirstOrDefault();
+                return imgUrl;
+
             }
             else
             {
@@ -159,6 +179,11 @@ public class Pagemap
 
 public class CseImage
 {
+    public CseImage()
+    {
+        src = null;
+    }
+
     public string src { get; set; }
 }
 

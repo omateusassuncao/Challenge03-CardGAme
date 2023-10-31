@@ -64,19 +64,28 @@ namespace Challenge03.Data
 
                 entity.HasOne(b => b.Player_A)
                       .WithMany()
-                      .OnDelete(DeleteBehavior.NoAction); // Define a exclusão em cascata como NO ACTION
+                      .HasForeignKey(b => b.Player_AId)
+                      .OnDelete(DeleteBehavior.SetNull); // Define a exclusão em cascata
 
                 entity.HasOne(b => b.Player_B)
                       .WithMany()
-                      .OnDelete(DeleteBehavior.NoAction); // Define a exclusão em cascata como NO ACTION
+                      .HasForeignKey(b => b.Player_AId)
+                      .OnDelete(DeleteBehavior.SetNull); // Define a exclusão em cascata
 
                 entity.HasOne(b => b.Card_A)
                       .WithMany()
-                      .OnDelete(DeleteBehavior.NoAction); // Define a exclusão em cascata como NO ACTION
+                      .HasForeignKey(c => c.Card_AId)
+                      .OnDelete(DeleteBehavior.SetNull); // Define a exclusão em cascata
 
                 entity.HasOne(b => b.Card_B)
                       .WithMany()
-                      .OnDelete(DeleteBehavior.NoAction); // Define a exclusão em cascata como NO ACTION
+                      .HasForeignKey(c => c.Card_AId)
+                      .OnDelete(DeleteBehavior.SetNull); // Define a exclusão em cascata
+
+                entity.HasOne(b => b.Vencedor)
+                      .WithMany()
+                      .HasForeignKey(c => c.VencedorId);
+                      //.OnDelete(DeleteBehavior.NoAction); // Define a exclusão em cascata
             });
         }
 

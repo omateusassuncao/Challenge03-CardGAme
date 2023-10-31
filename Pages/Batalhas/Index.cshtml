@@ -1,0 +1,52 @@
+﻿@page
+@model Challenge03.Pages.Batalhas.IndexModel
+
+<table>
+    <tr>
+        <td class="col-md-1" style="text-align: left;">
+            <h4>Resumo das Batalhas</h4>
+        </td>
+    </tr>
+</table>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Defafiante
+            </th>
+            <th>
+                Desafiado
+            </th>
+            <th>
+                Vencedor
+            </th>
+            <th>
+                log da Batalha
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Batalhas)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Card_A.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Card_A.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Vencedor.Baralho.Player.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LogBatalha)
+            </td>
+            <td>
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

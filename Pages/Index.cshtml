@@ -8,7 +8,7 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
+<div>
     <h1 class="display-4">@Configuration["app:settings:name"]</h1>
 </div>
 
@@ -35,7 +35,7 @@
             <div class="card-body">
                 <h5 class="card-title">Batalhas</h5>
                 <p class="card-text">Acompanhe as batalhas</p>
-                <a asp-page="/Batalhas/Index" class="btn btn-primary">Go</a>
+                <a asp-page="/Batalhas/Create" class="btn btn-primary">Go</a>
             </div>
         </div>
     </div>

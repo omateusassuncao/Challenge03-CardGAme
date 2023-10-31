@@ -19,14 +19,13 @@ namespace Challenge03.Pages.Cards
             _context = context;
         }
 
-        public IList<Card> Card { get;set; } = default!;
+        public IList<Card> Cards { get;set; } = default!;
 
         public async Task OnGetAsync()
         {
             if (_context.Cards != null)
             {
-                Card = await _context.Cards
-                .Include(c => c.Baralho).ToListAsync();
+                Cards = await _context.Cards.Include(c => c.Baralho).ToListAsync();
             }
         }
     }

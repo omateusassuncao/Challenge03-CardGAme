@@ -6,10 +6,11 @@ namespace Challenge03.Models
     public class Card
     {
         public Card() { }
-        public Card(string nome, string historia, string classe, string elemento, string imageUrl, string assinatura)
+        public Card(string nome, string historia, string textoParaImagem, string classe, string elemento, string? imageUrl, string assinatura, Baralho baralho)
         {
             Nome = nome;
             Historia = historia;
+            TextoParaImagem = textoParaImagem;
             Classe = classe;
             Elemento = elemento;
             HP = CalcularHP();
@@ -20,6 +21,8 @@ namespace Challenge03.Models
             Inteligencia = CalcularInteligencia();
             ImageUrl = imageUrl;
             Assinatura = assinatura;
+            BaralhoId = baralho.Id;
+            Baralho = baralho;
         }
 
         [Key]
@@ -28,7 +31,8 @@ namespace Challenge03.Models
         public int Id { get; set; }
         public string Nome { get; set; }
         public string Historia { get; set; }
-        public string ImageUrl { get; set; }
+        public string TextoParaImagem { get; set; }
+        public string? ImageUrl { get; set; }
         public string Assinatura { get; set; }
         public int? BaralhoId { get; set; }
         public Baralho? Baralho { get; set; }

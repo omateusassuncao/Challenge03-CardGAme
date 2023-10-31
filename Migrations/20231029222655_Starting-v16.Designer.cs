@@ -4,6 +4,7 @@ using Challenge03.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Challenge03.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231029222655_Starting-v16")]
+    partial class Startingv16
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,9 +58,6 @@ namespace Challenge03.Migrations
                     b.Property<int?>("Card_AId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Card_AId1")
-                        .HasColumnType("int");
-
                     b.Property<int?>("Card_BId")
                         .HasColumnType("int");
 
@@ -76,9 +75,6 @@ namespace Challenge03.Migrations
                     b.Property<int?>("Player_AId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Player_AId1")
-                        .HasColumnType("int");
-
                     b.Property<int?>("Player_BId")
                         .HasColumnType("int");
 
@@ -87,13 +83,21 @@ namespace Challenge03.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Card_AId");
+                    b.HasIndex("Card_AId")
+                        .IsUnique()
+                        .HasFilter("[Card_AId] IS NOT NULL");
 
-                    b.HasIndex("Card_AId1");
+                    b.HasIndex("Card_BId")
+                        .IsUnique()
+                        .HasFilter("[Card_BId] IS NOT NULL");
 
-                    b.HasIndex("Player_AId");
+                    b.HasIndex("Player_AId")
+                        .IsUnique()
+                        .HasFilter("[Player_AId] IS NOT NULL");
 
-                    b.HasIndex("Player_AId1");
+                    b.HasIndex("Player_BId")
+                        .IsUnique()
+                        .HasFilter("[Player_BId] IS NOT NULL");
 
                     b.HasIndex("VencedorId");
 
@@ -200,23 +204,21 @@ namespace Challenge03.Migrations
 
             modelBuilder.Entity("Challenge03.Models.Batalha", b =>
                 {
-                    b.HasOne("Challenge03.Models.Card", "Card_B")
-                        .WithMany()
-                        .HasForeignKey("Card_AId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
                     b.HasOne("Challenge03.Models.Card", "Card_A")
-                        .WithMany()
-                        .HasForeignKey("Card_AId1");
+                        .WithOne()
+                        .HasForeignKey("Challenge03.Models.Batalha", "Card_AId");
 
-                    b.HasOne("Challenge03.Models.Player", "Player_B")
-                        .WithMany()
-                        .HasForeignKey("Player_AId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                    b.HasOne("Challenge03.Models.Card", "Card_B")
+                        .WithOne()
+                        .HasForeignKey("Challenge03.Models.Batalha", "Card_BId");
 
                     b.HasOne("Challenge03.Models.Player", "Player_A")
-                        .WithMany()
-                        .HasForeignKey("Player_AId1");
+                        .WithOne()
+                        .HasForeignKey("Challenge03.Models.Batalha", "Player_AId");
+
+                    b.HasOne("Challenge03.Models.Player", "Player_B")
+                        .WithOne()
+                        .HasForeignKey("Challenge03.Models.Batalha", "Player_BId");
 
                     b.HasOne("Challenge03.Models.Card", "Vencedor")
                         .WithMany()

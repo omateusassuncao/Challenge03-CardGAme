@@ -18,9 +18,11 @@
             <ul>
                 @foreach (var card in Model.Baralho.Cards)
                 {
-                    <li>@card.Nome</li>
-                    <li>@card.Classe/@card.Elemento</li>
-                    <li>@card.Forca/@card.Defesa</li>
+                    <li>
+                        <a asp-page="/Cards/Details" asp-route-id="@card.Id">
+                        @card.Nome | @card.Classe/@card.Elemento | @card.Forca/@card.Defesa
+                        </a>
+                    </li>
                 }
             </ul>
         </dd>

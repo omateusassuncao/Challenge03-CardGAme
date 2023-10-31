@@ -4,6 +4,7 @@ using Challenge03.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Challenge03.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231029214327_Starting-v15")]
+    partial class Startingv15
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,11 +89,15 @@ namespace Challenge03.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Card_AId");
+                    b.HasIndex("Card_AId")
+                        .IsUnique()
+                        .HasFilter("[Card_AId] IS NOT NULL");
 
                     b.HasIndex("Card_AId1");
 
-                    b.HasIndex("Player_AId");
+                    b.HasIndex("Player_AId")
+                        .IsUnique()
+                        .HasFilter("[Player_AId] IS NOT NULL");
 
                     b.HasIndex("Player_AId1");
 
@@ -201,8 +207,8 @@ namespace Challenge03.Migrations
             modelBuilder.Entity("Challenge03.Models.Batalha", b =>
                 {
                     b.HasOne("Challenge03.Models.Card", "Card_B")
-                        .WithMany()
-                        .HasForeignKey("Card_AId")
+                        .WithOne()
+                        .HasForeignKey("Challenge03.Models.Batalha", "Card_AId")
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("Challenge03.Models.Card", "Card_A")
@@ -210,8 +216,8 @@ namespace Challenge03.Migrations
                         .HasForeignKey("Card_AId1");
 
                     b.HasOne("Challenge03.Models.Player", "Player_B")
-                        .WithMany()
-                        .HasForeignKey("Player_AId")
+                        .WithOne()
+                        .HasForeignKey("Challenge03.Models.Batalha", "Player_AId")
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("Challenge03.Models.Player", "Player_A")

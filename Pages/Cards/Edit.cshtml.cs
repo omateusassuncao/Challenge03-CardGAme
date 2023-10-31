@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Challenge03.Data;
 using Challenge03.Models;
+using Newtonsoft.Json;
 
 namespace Challenge03.Pages.Cards
 {
@@ -25,6 +26,9 @@ namespace Challenge03.Pages.Cards
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
+
+            ViewData["Baralho"] = new SelectList(_context.Baralhos, "Id", "Name");
+
             if (id == null || _context.Cards == null)
             {
                 return NotFound();
@@ -36,7 +40,7 @@ namespace Challenge03.Pages.Cards
                 return NotFound();
             }
             Card = card;
-           ViewData["BaralhoId"] = new SelectList(_context.Baralhos, "Id", "Id");
+
             return Page();
         }
 
@@ -44,27 +48,19 @@ namespace Challenge03.Pages.Cards
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
 
-            _context.Attach(Card).State = EntityState.Modified;
+            var card = await _context.Cards.FirstOrDefaultAsync(c => c.Id == Card.Id);
+            card.Nome = Card.Nome;
+            card.Historia = Card.Historia;
+            card.ImageUrl = Card.ImageUrl;
+            card.Assinatura = Card.Assinatura;
 
-            try
+            _context.Cards.Update(card);
+            var result = await _context.SaveChangesAsync();
+
+            if (result == null)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CardExists(Card.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound();
             }
 
             return RedirectToPage("./Index");
@@ -74,5 +70,6 @@ namespace Challenge03.Pages.Cards
         {
           return (_context.Cards?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+
     }
 }
