@@ -13,9 +13,9 @@ var builder = WebApplication.CreateBuilder(args);
 //
 //Database connection
 //
-string secretNameDBConnectionString= "db-connectionstring"; //Acessa em Key Vault > Secrets
-//var dbConnectionString = GetConnection(secretNameDBConnectionString);
-var dbConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+string secretNameDBConnectionString= "dbconnectionstring"; //Acessa em Key Vault > Secrets
+var dbConnectionString = GetConnection(secretNameDBConnectionString);
+//var dbConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(dbConnectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
