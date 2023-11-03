@@ -1,0 +1,49 @@
+﻿@page
+@model Challenge03.Pages.Batalhas.DetailsModel
+
+<div>
+    <h4>Batalha</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Desafiante
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Batalha.Card_A.Nome)
+        </dd>
+        <dt class="col-sm-2">
+            Desafiado
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Batalha.Card_B.Nome)
+        </dd>
+        <dt class="col-sm-2">
+            Escolha do desafiante
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Batalha.Escolha_A)
+        </dd>
+        <dt class="col-sm-2">
+            Escolha do desafiado
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Batalha.Escolha_B)
+        </dd>
+        <dt class="col-sm-2">
+            Player Vencedor
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Batalha.Vencedor.Baralho.Player.Nome)
+        </dd>
+        <dt class="col-sm-2">
+            Log da batalha
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Batalha.LogBatalha)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Batalha?.Id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

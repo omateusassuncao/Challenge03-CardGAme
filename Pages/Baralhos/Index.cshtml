@@ -1,0 +1,44 @@
+﻿@page
+@model Challenge03.Pages.Baralhos.IndexModel
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Baralho[0].Name)
+            </th>
+            <th>
+                Qtd de Cards
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Baralho[0].Player)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Baralho) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cards.Count())
+            </td>
+            <td>
+                <a asp-page="/Players/Details" asp-route-id="@item.PlayerId">
+                    @Html.DisplayFor(modelItem => item.Player.Nome)
+                </a>
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">📝</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">🔍</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">🗑️</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

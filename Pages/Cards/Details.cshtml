@@ -1,0 +1,52 @@
+﻿@page
+@model Challenge03.Pages.Cards.DetailsModel
+
+<div>
+    <h4>Card</h4>
+    <hr />
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Card.Nome)</th>
+                <td>@Html.DisplayFor(model => model.Card.Nome)</td>
+                <th>Imagem</th>
+                <td>
+                    <img src="@Model.Card.ImageUrl"
+                         alt=@Html.DisplayFor(model => model.Card.TextoParaImagem)
+                         width="200" height="200">
+                </td>
+                <td>
+                    <a asp-page-handler="ChangeGoogleImage" asp-route-id="@Model.Card?.Id">
+                        <button class="btn btn-primary">Mudar a imagem aleatoriamente</button>
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Card.Baralho)</th>
+                <td>@Html.DisplayFor(model => model.Card.Baralho.Id)</td>
+                <th>@Html.DisplayNameFor(model => model.Card.Historia)</th>
+                <td>@Html.DisplayFor(model => model.Card.Historia)</td>
+                <th>Autor</th>
+                <td>@Html.DisplayFor(model => model.Card.Assinatura)</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Card.Classe)</th>
+                <td>@Html.DisplayFor(model => model.Card.Classe)</td>
+                <th>@Html.DisplayNameFor(model => model.Card.Elemento)</th>
+                <td>@Html.DisplayFor(model => model.Card.Elemento)</td>
+            </tr>
+            <tr>
+                <th>HP/SP</th>
+                <td>@{Html.DisplayFor(model => model.Card.HP);} / @{Html.DisplayFor(model => model.Card.SP);}</td>
+                <th>For/Def</th>
+                <td>@{Html.DisplayFor(model => model.Card.Forca);} / @{Html.DisplayFor(model => model.Card.Defesa);}</td>
+                <th>Agi/Int</th>
+                <td>@{Html.DisplayFor(model => model.Card.Agilidade);} / @{Html.DisplayFor(model => model.Card.Inteligencia);}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Card?.Id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
