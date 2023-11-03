@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Challenge03.Data;
 using Challenge03.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.CodeAnalysis.FlowAnalysis.DataFlow;
 
 namespace Challenge03.Pages.Batalhas
 {
@@ -29,7 +31,9 @@ namespace Challenge03.Pages.Batalhas
         {
             ViewData["Player"] = new SelectList(_context.Players, "Id", "Nome");
 
-            ViewData["Card"] = new SelectList(_context.Cards, "Id", "Nome");
+            ViewData["CardA"] = new SelectList(_context.Cards.Include(c => c.Baralho.Player), "Id", "Nome");
+
+            ViewData["CardB"] = new SelectList(_context.Cards.Include(c => c.Baralho.Player), "Id", "Nome");
 
             AtributoList = new List<SelectListItem>
             {
@@ -38,6 +42,14 @@ namespace Challenge03.Pages.Batalhas
                 new SelectListItem { Value = "Agilidade", Text = "Agilidade" },
                 new SelectListItem { Value = "Inteligência", Text = "Inteligência" }
             };
+            return Page();
+        }
+        public IActionResult UpdateList(int id)
+        {
+            ViewData["Player"] = new SelectList(_context.Players, "Id", "Nome");
+
+            ViewData["CardA"] = new SelectList(_context.Cards.Include(c => c.Baralho.Player).Where(c => c.Baralho.PlayerId == id), "Id", "Nome");
+
             return Page();
         }
 
