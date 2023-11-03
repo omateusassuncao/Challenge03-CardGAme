@@ -1,6 +1,7 @@
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using Challenge03.Data;
+using Challenge03.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Formatters.Xml;
 using Microsoft.EntityFrameworkCore;
@@ -9,23 +10,31 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+//
 //Database connection
+//
 string secretNameDBConnectionString= "db-connectionstring"; //Acessa em Key Vault > Secrets
-var dbConnectionString = GetConnection(secretNameDBConnectionString);
-//var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+//var dbConnectionString = GetConnection(secretNameDBConnectionString);
+var dbConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(dbConnectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+//
 //Identity Configuration
+//
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddRazorPages();
 
+//
 //Application Insights
+//
 builder.Services.AddApplicationInsightsTelemetry();
 
+//
 //Azure App Configuration
+//
 string secretNameAppConfig= "app-configuration"; //Acessa em Key Vault > Secrets
 var appConfigString = GetConnection(secretNameAppConfig);
 //var appConfigString = builder.Configuration.GetConnectionString("AzureAppConfiguration");
@@ -33,6 +42,14 @@ builder.Host.ConfigureAppConfiguration(config => {
     var settings = config.Build();
     config.AddAzureAppConfiguration(appConfigString);
 });
+
+
+//
+builder.Services.AddTransient<IRepository<Card>, Repository<Card>>();
+builder.Services.AddTransient<IRepository<Player>, Repository<Player>>();
+builder.Services.AddTransient<IRepository<Batalha>, Repository<Batalha>>();
+//
+
 
 //
 // Passar esse código para uma classe 
@@ -58,7 +75,6 @@ string GetConnection(string secretName){
 	return conn;
 }
 //
-//
 
 var app = builder.Build();
 
@@ -78,6 +94,10 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.UseAuthentication();
 app.UseAuthorization();
