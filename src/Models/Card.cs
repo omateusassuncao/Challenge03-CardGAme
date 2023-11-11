@@ -123,5 +123,19 @@ namespace Challenge03.Models
 
         }
 
+        //Unit Tests
+
+        public bool validaNome(string nome)
+        {
+            if (nome == "" || nome.Trim() == "")
+            {
+                return false;
+            }
+            else if (nome.Any(char.IsDigit))
+            {
+                return false;
+            }
+            throw new NotImplementedException("Nome incorreto");
+        }
     }
 }
