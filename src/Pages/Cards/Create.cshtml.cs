@@ -99,7 +99,7 @@ namespace Challenge03.Pages.Cards
 
                 while (imgUrl == null)
                 {
-                    int randomNumber = (new Random()).Next(1, imageList.Count());
+                    int randomNumber = (new Random()).Next(0, imageList.Count()-1);
                     imgUrl = imageList[randomNumber];
                     //cseImage = search.Items.Select(item => item.Pagemap.cse_image[randomNumber]).FirstOrDefault();
                     //cseImage = search.Items.Select(item => item.Pagemap.cse_image[randomNumber]).FirstOrDefault();
