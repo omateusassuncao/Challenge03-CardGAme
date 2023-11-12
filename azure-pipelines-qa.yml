@@ -19,19 +19,45 @@ variables:
 
 steps:
 - task: NuGetToolInstaller@1
+  displayName: 'Install Nuget'
 
 - task: NuGetCommand@2
+  displayName: 'Nuget restore solution'
   inputs:
     restoreSolution: '$(solution)'
 
+- task: UseDotNet@2
+  displayName: 'Install .NET Core SDK'
+  inputs:
+    version: 6.x
+    performMultiLevelLookup: true
+    includePreviewVersions: true # Required for preview versions
+    installationPath: 
+
+- task: DotNetCoreCLI@2
+  displayName: '.NET Restore'
+  inputs:
+    command: 'restore'
+    feedsToUse: 'select'
+    vstsFeed: 'my-vsts-feed' # A series of numbers and letters
+
 - task: VSBuild@1
+  displayName: '.NET Build'
   inputs:
     solution: '$(solution)'
     msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
-
+    
+- task: DotNetCoreCLI@2
+  displayName: '.NET Test'
+  inputs:
+    command: 'test'
+    projects: '**/*TestsChallenge/*.csproj'
+    arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
+    
 - task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifacts'
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
