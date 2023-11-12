@@ -24,6 +24,20 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
+- task: UseDotNet@2
+  displayName: 'Install .NET Core SDK'
+  inputs:
+    version: 6.0
+    performMultiLevelLookup: true
+    includePreviewVersions: true # Required for preview versions
+    installationPath: 
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'restore'
+    feedsToUse: 'select'
+    vstsFeed: 'my-vsts-feed' # A series of numbers and letters
+
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
@@ -34,8 +48,14 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'test'
-    projects: '**/TestsChallenge/TestsChallenge.csproj'
+    projects: '**/*TestsChallenge/*.csproj'
     arguments: '--configutation $(BuildConfiguration)'
+    
+- task: DotNetCoreCLI@2
+  inputs:
+    command: test
+    projects: '**/*Tests/*.csproj'
+    arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
 
 - task: PublishBuildArtifacts@1
   inputs:
