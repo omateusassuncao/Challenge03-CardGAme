@@ -5,7 +5,7 @@ using System.Xml.Linq;
 namespace Challenge03.Tests.Cards
 {
     [TestFixture]
-    public class CreateCard_InvalidName_Falhar
+    public class CreatePlayer_InvalidCPF_Falhar
     {
         private Player _player;
         private Baralho _baralho;
@@ -21,12 +21,15 @@ namespace Challenge03.Tests.Cards
 
         [TestCase("")]
         [TestCase("    ")]
-        [TestCase("3412343412")]
         [TestCase("%$#@ D%S$DS %$@ S%#@% ")]
-        public void CriarCard_InvalidName_CatchException(string value)
+        [TestCase("asdasdasdsd")]
+        [TestCase("asd#$%ASD#G")]
+        [TestCase("123456789000")]
+        [TestCase("1234567890")]
+        public void CriarPlayer_InvalidCPF_CatchException(string value)
         {
-            _card.Nome = value;
-            TestDelegate result = () => new Card(_card.Nome, _card.Historia, _card.TextoParaImagem, _card.Classe, _card.Elemento, _card.ImageUrl, _card.Assinatura, _card.Baralho);
+            _player.CPF = value;
+            TestDelegate result = () => new Player(_player.Nome, _player.CPF);
             Assert.Catch<Exception>(result, "O nome não pode ser nulo ou conter números ou caractéres especiais");
         }
     }

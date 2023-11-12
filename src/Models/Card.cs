@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Configuration;
 
 namespace Challenge03.Models
 {
@@ -8,7 +9,7 @@ namespace Challenge03.Models
         public Card() { }
         public Card(string nome, string historia, string textoParaImagem, string classe, string elemento, string? imageUrl, string assinatura, Baralho baralho)
         {
-            Nome = nome;
+            Nome = validaNome(nome);
             Historia = historia;
             TextoParaImagem = textoParaImagem;
             Classe = classe;
@@ -29,6 +30,8 @@ namespace Challenge03.Models
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        [Required]
+        [RegularExpression(@"^[a-zA-Z\s]*$", ErrorMessage = "O campo deve conter apenas letras e espaços.")]
         public string Nome { get; set; }
         public string Historia { get; set; }
         public string TextoParaImagem { get; set; }
@@ -125,17 +128,21 @@ namespace Challenge03.Models
 
         //Unit Tests
 
-        public bool validaNome(string nome)
+        public string validaNome(string nome)
         {
             if (nome == "" || nome.Trim() == "")
             {
-                return false;
+                throw new Exception("Nome nulo");
             }
             else if (nome.Any(char.IsDigit))
             {
-                return false;
+                throw new Exception("Nome contêm números");
             }
-            throw new NotImplementedException("Nome incorreto");
+            else if (nome.Any(char.IsPunctuation) || nome.Any(char.IsSymbol))
+            {
+                throw new Exception("Nome contêm caractéres espeiais");
+            }
+            return nome;
         }
     }
 }
