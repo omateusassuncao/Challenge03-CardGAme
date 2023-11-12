@@ -42,7 +42,7 @@ steps:
     vstsFeed: 'my-vsts-feed' # A series of numbers and letters
 
 - task: VSBuild@1
-  displayName: 'Build'
+  displayName: '.NET Build'
   inputs:
     solution: '$(solution)'
     msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
