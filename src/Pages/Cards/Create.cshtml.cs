@@ -3,14 +3,15 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Challenge03.Models;
 using Newtonsoft.Json;
+using Challenge03.Data;
 
 namespace Challenge03.Pages.Cards
 {
     public class CreateModel : PageModel
     {
-        private readonly Challenge03.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public CreateModel(Challenge03.Data.ApplicationDbContext context)
+        public CreateModel(ApplicationDbContext context)
         {
             _context = context;
         }
