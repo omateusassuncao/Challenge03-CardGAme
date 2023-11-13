@@ -69,7 +69,7 @@ namespace Challenge03.Pages.Cards
         static async Task<string> GetGoogleImage(string textToSearch)
         {
             string cseId = "3599d0fa2138f4b50";
-            string apiKey = "AIzaSyC4ehfwsrgNhaO7UPchntMAy5gy-gnH9-A";
+            string apiKey = Environment.GetEnvironmentVariable("GOOGLE_APIKEY");
             string numItens = "10";
             string apiUrl = "https://www.googleapis.com/customsearch/v1?cx={cx}&key={key}&q={query}&num={num}";
             string query = "Monster " + textToSearch + "oil painting";
