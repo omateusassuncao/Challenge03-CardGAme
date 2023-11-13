@@ -20,5 +20,5 @@ Todos os 23 casos de testes são executados automaticamente pela pipeline no est
 
 Próximos passsos:
 - Configurar o Indentity para validação do usuário
-- COnfigurar a opção do usuário gerar a imagem do card a partir de uma IA
+- Configurar a opção do usuário gerar a imagem do card a partir de uma IA
 - Melhorar a UI do sistema
