@@ -22,3 +22,5 @@ Próximos passsos:
 - Configurar o Indentity para validação do usuário
 - Configurar a opção do usuário gerar a imagem do card a partir de uma IA
 - Melhorar a UI do sistema
+
+https://www.youtube.com/watch?v=EckrziCgEwk
